@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Realtime Location Tracker with Excel Data</title>
+    <!-- leaflet css -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        #map {
+            width: 100%;
+            height: 100vh; /* Adjust the height as needed */
+        }
+    </style>
+</head>
+
+<body>
+    <div id="map"></div>
+</body>
+
+<!-- leaflet js -->
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<script>
+    // Map initialization 
+    var map = L.map('map').setView([14.086, 100.608], 8);
+
+    var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    });
+    osm.addTo(map);
+
+    // Excel data converted to JSON
+    var jsonData = [
+        { "lat": 10.9419814225176, "lng": 76.95229491354861, "name": "NIVAS" },
+        { "lat": 10.937233573981059, "lng": 76.95629033205148, "name": "LIVE" },
+        { "lat": 10.93398068451363,  "lng": 76.95370332894102, "name": "LIVE" },
+        
+        // Add more data as needed 10.94198142251766, 76.95229491354861
+    ];
+
+    // Create markers from JSON data
+    jsonData.forEach(function(data) {
+        var marker = L.marker([data.lat, data.lng]).addTo(map);
+        marker.bindPopup(data.name);
+    });
+
+    // Geolocation code from the second code snippet
+    var marker, circle;
+    var reboundTimer;
+
+    function getPosition(position) {
+        var lat = 10.937233573981059;
+        var long = 76.95629033205148;
+        var accuracy = position.coords.accuracy;
+
+        if (marker) {
+            map.removeLayer(marker);
+        }
+
+        if (circle) {
+            map.removeLayer(circle);
+        }
+
+        marker = L.marker([lat, long]);
+        circle = L.circle([lat, long], { radius: accuracy });
+
+        var featureGroup = L.featureGroup([marker, circle]).addTo(map);
+
+        clearTimeout(reboundTimer); // Clear any existing rebound timer
+        reboundTimer = setTimeout(function() {
+            map.fitBounds(featureGroup.getBounds());
+        }, 5000); // 2 second delay
+
+        console.log("Your coordinate is: Lat: " + lat + " Long: " + long + " Accuracy: " + accuracy);
+    }
+
+    if (!navigator.geolocation) {
+        console.log("Your browser doesn't support geolocation feature!");
+    } else {
+        setInterval(() => {
+            navigator.geolocation.getCurrentPosition(getPosition);
+        }, 5000);
+    }
+    // Create markers from JSON data
+jsonData.forEach(function(data) {
+    var marker = L.marker([data.lat, data.lng]).addTo(map);
+    marker.bindPopup(data.name);
+
+    // Zoom to marker when clicked
+    marker.on('click', function(e) {
+        map.setView(e.latlng, 20); // Change 12 to the desired zoom level
+    });
+});
+
+
+</script>
+
+</html>

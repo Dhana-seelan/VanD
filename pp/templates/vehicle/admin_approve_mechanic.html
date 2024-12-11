@@ -1,0 +1,104 @@
+{% extends 'vehicle/adminbase.html' %}
+{% block content %}
+{% load static %}
+
+<!-- main content -->
+<div class="wrapper">
+
+    <!-- ****** table start ********** -->
+    <div class="row">
+        <div class="col-12 col-m-12 col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 style="color:red; text-align:center">
+                        Hire Mechanics Based On Skill
+                    </h3>
+                </div>
+                <div class="card-content">
+                    <div class="table-container">
+                        <table class="styled-table">
+                            <thead>
+                                <tr>
+                                    <th>Mechanic Name</th>
+                                    <th>Profile Picture</th>
+                                    <th>Mobile Number</th>
+                                    <th>Address</th>
+                                    <th>Skills</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for m in mechanics %}
+                                <tr>
+                                    <td>{{ m.get_name }}</td>
+                                    <td><img src="{% static m.profile_pic.url %}" alt="Profile Pic" height="40px"
+                                            width="40px" /></td>
+                                    <td>{{ m.mobile }}</td>
+                                    <td>{{ m.address }}</td>
+                                    <td>{{ m.skill }}</td>
+                                    <td>
+                                        <a class="approve" href="{% url 'approve-mechanic' m.id  %}">&#10004;</a>
+                                        <a class="delete" href="{% url 'delete-mechanic' m.id  %}">&#10008;</a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ****** table end ********** -->
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+</div>
+<!-- end main content -->
+{% endblock content %}
+
+<style>
+    .styled-table {
+        width: 100%;
+        background-color: #f9f9f9;
+        border-collapse: collapse;
+        margin: 20px 0;
+        font-size: 0.9em;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .styled-table thead tr {
+        background-color: #009879;
+        color: #ffffff;
+        text-align: left;
+    }
+
+    .styled-table th,
+    .styled-table td {
+        padding: 12px 15px;
+    }
+
+    .styled-table tbody tr {
+        border-bottom: 1px solid #dddddd;
+    }
+
+    .styled-table tbody tr:nth-of-type(even) {
+        background-color: #f3f3f3;
+    }
+
+    .styled-table tbody tr:last-of-type {
+        border-bottom: 2px solid #009879;
+    }
+
+    .styled-table tbody tr.active-row {
+        font-weight: bold;
+        color: #009879;
+    }
+
+    .approve {
+        color: #00FF00;
+        margin-right: 5px;
+    }
+
+    .delete {
+        color: #FF0000;
+    }
+</style>

@@ -1,0 +1,23 @@
+/* Set the size of the map container */
+#map {
+    height: 400px; /* Adjust the height as needed */
+    width: 100%; /* Make the map container take up the full width of its parent */
+    border: 1px solid #ccc; /* Add a border around the map */
+}
+
+/* Style the marker popup */
+.leaflet-popup-content {
+    padding: 10px; /* Add padding to the popup content */
+    border-radius: 5px; /* Add border radius to make the popup rounded */
+    background-color: #fff; /* Set the background color of the popup */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add shadow to the popup */
+    font-size: 14px; /* Set the font size of the popup content */
+}
+
+/* Style the marker popup close button */
+.leaflet-popup-close-button {
+    font-size: 16px; /* Set the font size of the close button */
+    color: #333; /* Set the color of the close button */
+    top: 5px; /* Adjust the top position of the close button */
+    right: 5px; /* Adjust the right position of the close button */
+}
